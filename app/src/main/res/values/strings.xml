@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">ChatApp</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="add_image">Add image</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="enter_email">Enter email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="loading">Loading...</string>
+    <string name="select_profile_image">Select profile image</string>
+    <string name="enter_name">Enter name</string>
+    <string name="password_must_be_more_than_6_characters">Password must be more than 6 characters</string>
+    <string name="password_and_confirm_password_must_be_same"><![CDATA[Password & confirm password must be same]]></string>
+</resources>
