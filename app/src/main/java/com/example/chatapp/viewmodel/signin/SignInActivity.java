@@ -1,14 +1,20 @@
 package com.example.chatapp.viewmodel.signin;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.chatapp.R;
+import com.example.chatapp.base.BaseActivity;
 import com.example.chatapp.base.BaseMVVMActivity;
 import com.example.chatapp.databinding.ActivitySignInBinding;
+import com.example.chatapp.viewmodel.home.LoadingDialog;
 import com.example.chatapp.viewmodel.signup.SignUpActivity;
 import com.example.chatapp.utilities.Constants;
 import com.example.chatapp.utilities.PreferenceManager;
@@ -17,17 +23,25 @@ import com.example.chatapp.viewmodel.main.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-//todo apply hilt, mvvm, Rx
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+////todo apply hilt, mvvm, Rx
+@AndroidEntryPoint
 public class SignInActivity extends BaseMVVMActivity<ActivitySignInBinding,SignInViewModel> {
 
     ActivitySignInBinding binding;
-    private PreferenceManager preferenceManager;
+    //todo inject bằng Hilt
+
+    @Inject
+    PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //todo inject bằng Hilt
+
         preferenceManager = new PreferenceManager(this);
 
         if (preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN)) {
@@ -47,7 +61,7 @@ public class SignInActivity extends BaseMVVMActivity<ActivitySignInBinding,SignI
 
     @Override
     protected ActivitySignInBinding getLayoutBinding() {
-        return ActivitySignInBinding.inflate(getLayoutInflater());
+        return null;
     }
 
     @Override
@@ -67,7 +81,7 @@ public class SignInActivity extends BaseMVVMActivity<ActivitySignInBinding,SignI
 
     private void setListeners() {
         binding.textCreateNewAccount.setOnClickListener(v ->
-                startActivity(new Intent(getApplicationContext(), SignUpActivity.class)));
+                startActivity(new Intent(this, SignUpActivity.class)));
         binding.buttonSignIn.setOnClickListener(view -> {
             if (isValidSignInDetails()) {
                 signIn();
@@ -81,7 +95,7 @@ public class SignInActivity extends BaseMVVMActivity<ActivitySignInBinding,SignI
 //    }
 
     private void signIn() {
-        loading(true);
+        showLoading();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseAuth.signInWithEmailAndPassword(binding.inputEmail.getText().toString(), binding.inputPassword.getText().toString())
@@ -91,7 +105,7 @@ public class SignInActivity extends BaseMVVMActivity<ActivitySignInBinding,SignI
                     firebaseFirestore.collection(Constants.KEY_COLLECTION_USER).document(userId).get()
                             .addOnSuccessListener(documentSnapshot -> {
                                 preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent(this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                             }).addOnFailureListener(e -> {
@@ -103,11 +117,11 @@ public class SignInActivity extends BaseMVVMActivity<ActivitySignInBinding,SignI
     //todo đưa vào viewmodel
     private Boolean isValidSignInDetails() {
         //todo tạo class utilities
-        if (!StringUtils.isEmail(binding.inputEmail.getText().toString()) || TextUtils.isEmpty(binding.inputEmail.getText().toString().trim())) {
+        if (StringUtils.isEmail(binding.inputEmail.getText().toString().trim())){
             showToast(getString(R.string.enter_email));
             return false;
             //todo TextUtils
-        } else if (TextUtils.isEmpty(binding.inputPassword.getText().toString().trim())) {
+        } else if (StringUtils.isPassword(binding.inputPassword.getText().toString().trim())) {
             //todo add string.xml
             showToast(getString(R.string.enter_password));
             return false;
