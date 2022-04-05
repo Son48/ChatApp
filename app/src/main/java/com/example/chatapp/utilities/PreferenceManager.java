@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.firebase.firestore.auth.User;
 
 //todo Apply Hilt
+
 public class PreferenceManager {
     private final SharedPreferences sharedPreferences;
 

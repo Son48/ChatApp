@@ -30,19 +30,23 @@ import dagger.hilt.android.AndroidEntryPoint;
 ////todo apply hilt, mvvm, Rx
 @AndroidEntryPoint
 public class SignInActivity extends BaseMVVMActivity<ActivitySignInBinding,SignInViewModel> {
-
-    ActivitySignInBinding binding;
     //todo inject bằng Hilt
 
-    @Inject
-    PreferenceManager preferenceManager;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected Class<SignInViewModel> getViewModelClass() {
+        return SignInViewModel.class;
+    }
 
-
-        preferenceManager = new PreferenceManager(this);
+    @Override
+    protected ActivitySignInBinding getLayoutBinding() {
+        return ActivitySignInBinding.inflate(getLayoutInflater());
+    }
+    @Inject
+    PreferenceManager preferenceManager;
+    @Override
+    protected void initialize() {
 
         if (preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN)) {
             //todo clean code, dunfg this
@@ -51,22 +55,6 @@ public class SignInActivity extends BaseMVVMActivity<ActivitySignInBinding,SignI
             finish();
         }
         setListeners();
-
-    }
-
-    @Override
-    protected Class<SignInViewModel> getViewModelClass() {
-        return null;
-    }
-
-    @Override
-    protected ActivitySignInBinding getLayoutBinding() {
-        return null;
-    }
-
-    @Override
-    protected void initialize() {
-
     }
 
     @Override
@@ -80,10 +68,12 @@ public class SignInActivity extends BaseMVVMActivity<ActivitySignInBinding,SignI
     }
 
     private void setListeners() {
-        binding.textCreateNewAccount.setOnClickListener(v ->
+        String email=getLayoutBinding().inputEmail.getText().toString();
+        String password=getLayoutBinding().inputPassword.getText().toString();
+        getLayoutBinding().textCreateNewAccount.setOnClickListener(v ->
                 startActivity(new Intent(this, SignUpActivity.class)));
-        binding.buttonSignIn.setOnClickListener(view -> {
-            if (isValidSignInDetails()) {
+        getLayoutBinding().buttonSignIn.setOnClickListener(view -> {
+            if (getViewModel().isValidSignInDetails(email,password)) {
                 signIn();
             }
         });
@@ -98,7 +88,7 @@ public class SignInActivity extends BaseMVVMActivity<ActivitySignInBinding,SignI
         showLoading();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseAuth.signInWithEmailAndPassword(binding.inputEmail.getText().toString(), binding.inputPassword.getText().toString())
+        firebaseAuth.signInWithEmailAndPassword(getLayoutBinding().inputEmail.getText().toString(), getLayoutBinding().inputPassword.getText().toString())
                 //todo sử dụng hàm success/fail
                 .addOnSuccessListener(authResult -> {
                     String userId = firebaseAuth.getCurrentUser().getUid();
@@ -114,21 +104,21 @@ public class SignInActivity extends BaseMVVMActivity<ActivitySignInBinding,SignI
                 });
     }
 
-    //todo đưa vào viewmodel
-    private Boolean isValidSignInDetails() {
-        //todo tạo class utilities
-        if (StringUtils.isEmail(binding.inputEmail.getText().toString().trim())){
-            showToast(getString(R.string.enter_email));
-            return false;
-            //todo TextUtils
-        } else if (StringUtils.isPassword(binding.inputPassword.getText().toString().trim())) {
-            //todo add string.xml
-            showToast(getString(R.string.enter_password));
-            return false;
-        } else {
-            return true;
-        }
-
-    }
+//    //todo đưa vào viewmodel
+//    private Boolean isValidSignInDetails() {
+//        //todo tạo class utilities
+//        if (StringUtils.isEmail(binding.inputEmail.getText().toString().trim())){
+//            showToast(getString(R.string.enter_email));
+//            return false;
+//            //todo TextUtils
+//        } else if (StringUtils.isPassword(binding.inputPassword.getText().toString().trim())) {
+//            //todo add string.xml
+//            showToast(getString(R.string.enter_password));
+//            return false;
+//        } else {
+//            return true;
+//        }
+//
+//    }
 
 }

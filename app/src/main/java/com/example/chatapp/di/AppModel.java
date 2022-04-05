@@ -1,6 +1,9 @@
 package com.example.chatapp.di;
 
 
+import android.app.Application;
+
+import com.example.chatapp.utilities.PreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -22,5 +25,9 @@ public class AppModel {
     @Provides
     @Singleton
     static FirebaseAuth getAuthInstance(){return FirebaseAuth.getInstance();}
+
+    @Provides
+    @Singleton
+    static PreferenceManager getPrefrence(Application application){return new PreferenceManager(application);}
 
 }
