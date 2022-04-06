@@ -12,10 +12,15 @@
         <entry key="..\:/Users/SonLT/AndroidStudioProjects/ChatApp/app/src/main/res/layout/activity_sign_up.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/SonLT/AndroidStudioProjects/ChatApp/app/src/main/res/layout/item_container_user.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/SonLT/AndroidStudioProjects/ChatApp/app/src/main/res/layout/loading_dialog.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/le482/OneDrive/Desktop/androidstudio/ChatApp/app/src/main/res/drawable/background_content_bottom.xml" value="0.1" />
+        <entry key="..\:/Users/le482/OneDrive/Desktop/androidstudio/ChatApp/app/src/main/res/drawable/ic_add.xml" value="0.1" />
+        <entry key="..\:/Users/le482/OneDrive/Desktop/androidstudio/ChatApp/app/src/main/res/drawable/ic_back.xml" value="0.1" />
         <entry key="..\:/Users/le482/OneDrive/Desktop/androidstudio/ChatApp/app/src/main/res/layout/activity_loading_dialog.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/le482/OneDrive/Desktop/androidstudio/ChatApp/app/src/main/res/layout/activity_main.xml" value="0.10277777777777777" />
         <entry key="..\:/Users/le482/OneDrive/Desktop/androidstudio/ChatApp/app/src/main/res/layout/activity_sign_in.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/le482/OneDrive/Desktop/androidstudio/ChatApp/app/src/main/res/layout/activity_sign_up.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/le482/OneDrive/Desktop/androidstudio/ChatApp/app/src/main/res/layout/activity_users.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/le482/OneDrive/Desktop/androidstudio/ChatApp/app/src/main/res/layout/item_container_user.xml" value="0.22826086956521738" />
       </map>
     </option>
   </component>

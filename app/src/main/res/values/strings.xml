@@ -17,4 +17,5 @@
     <string name="password_must_be_more_than_6_characters">Password must be more than 6 characters</string>
     <string name="password_and_confirm_password_must_be_same"><![CDATA[Password & confirm password must be same]]></string>
     <string name="email_error">Email error</string>
+    <string name="select_user">Select User</string>
 </resources>
