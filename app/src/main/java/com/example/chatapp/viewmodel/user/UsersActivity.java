@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsersActivity extends AppCompatActivity {
+
     private ActivityUsersBinding binding;
     private PreferenceManager preferenceManager;
     private List<UserModel> userModelList;
@@ -49,18 +50,17 @@ public class UsersActivity extends AppCompatActivity {
         FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
         userID=firebaseAuth.getCurrentUser().getUid();
-        firebaseFirestore.collection(Constants.KEY_COLLECTION_USER).document(userID)
-                .collection(Constants.KEY_USER_ID).get()
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_USER).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String id=document.getId();
                                 UserModel userModel=document.toObject(UserModel.class);
-                                userModel.setUserID(id);
-                                userModelList.add(userModel);
+                                if(!userModel.getUserID().equals(userID)){
+                                    userModelList.add(userModel);
+                                }
                                 usersAdapter.notifyDataSetChanged();
                             }
                         } else {
